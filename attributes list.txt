@@ -1,0 +1,117 @@
+# skirt_length_labels
+
++ AttrKey : skirt_length_labels，群长设计
++ AttrValues :
+  - Invisible
+  - Short Length，短裙
+  - Knee Length，中裙　　　
+  - Midi Length，七分裙
+  - Ankle Length，九分裙
+  - Floor Length，长裙
+
+
+
+
+
+# coat_length_labels
+
++ AttrKey : coat_length_labels，衣长设计
++ AttrValues :
+  - Invisible
+  - High Waist Length，高腰
+  - Regular Lengt，正常
+  - Long Length，长款
+  - Micro Length，加长款
+  - Knee Length，及膝
+  - Midi Length，超长
+  - Ankle&Floor Length，及地
+
+
+
+
+# collar_design_labels
+
++ AttrKey : collar_design_labels，领子设计
++ AttrValues :
+  - Invisible
+  - Shirt Collar，衬衫领
+  - Peter Pan，娃娃领
+  - Puritan Collar，清道夫领
+  - Rib Collar，飞行员领
+
+
+
+
+
+# lapel_design_labels
+
++ AttrKey : lapel_design_labels，翻领设计
++ AttrValues :
+  - Invisible
+  - Notched，西装领
+  - Collarless，直线领
+  - Shawl Collar，青果领（披肩领）
+  - Plus Size Shawl，一片领
+
+
+
+# neck_design_labels
+
++ AttrKey : neck_design_labels，脖颈设计
++ AttrValues :
+  - Invisible
+  - Turtle Neck，高常规领
+  - Ruffle Semi-High Collar，荷叶半高领
+  - Low Turtle Neck，常规半高领
+  - Draped Collar，堆堆领
+
+
+
+
+# neckline_design_labels
+
++ AttrKey : neckline_design_labels，颈线设计
++ AttrValues :
+  - Invisible
+  - Strapless Neck，抹胸领
+  - Deep V Neckline，深Ｖ领
+  - Straight Neck，一字领
+  - V Neckline，Ｖ领
+  - Square Neckline，方领
+  - Off Shoulder，露肩领
+  - Round Neckline，圆领
+  - Sweat Heart Neck，桃形领
+  - One Shoulder Neckline，半开领
+
+
+
+
+
+# pant_length_labels
+
++ AttrKey : pant_length_labels，裤长设计
++ AttrValues :
+  - Invisible
+  - Short Pant，短裤
+  - Mid Length，五分裤
+  - 3/4 Length，七分裤
+  - Cropped Pant，九分裤
+  - Full Length，长裤
+
+
+
+
+
+# sleeve_length_labels
+
++ AttrKey : sleeve_length_labels，袖长设计
++ AttrValues :
+  - Invisible
+  - Sleeveless，无袖
+  - Cup Sleeves，杯袖
+  - Short Sleeves，短袖
+  - Elbow Sleeves，五分袖
+  - 3/4 Sleeves，七分袖
+  - Wrist Length，九分袖
+  - Long Sleeves，长袖
+  - Extra Long Sleeves，超长袖
