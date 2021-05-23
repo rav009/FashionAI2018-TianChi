@@ -10,14 +10,15 @@ label_train_dir1 = '/home/rav009/Projects/FashionAI2018-TianChi/fashionAI_attrib
 label_train_dir2 = '/home/rav009/Projects/FashionAI2018-TianChi/fashionAI_attributes_train2/Annotations/label.csv'
 
 
-label_dict = {'coat_length_labels': [],      #　衣长设计
-              'lapel_design_labels': [],　　　#　翻领设计
-              'neckline_design_labels': [],  #　颈线设计　
-              'skirt_length_labels': [],     #　裙长设计
-              'collar_design_labels': [],    #　领子设计
-              'neck_design_labels': [],      #　脖颈设计
-              'pant_length_labels': [],      #　裤长设计
-              'sleeve_length_labels': []}    #　袖长设计
+label_dict = {'coat_length_labels': [],     # 衣长设计
+              'lapel_design_labels': [],    # 翻领设计
+              'neckline_design_labels': [],  # 颈线设计　
+              'skirt_length_labels': [],     # 裙长设计
+              'collar_design_labels': [],    # 领子设计
+              'neck_design_labels': [],      # 脖颈设计
+              'pant_length_labels': [],      # 裤长设计
+              'sleeve_length_labels': []}    # 袖长设计
+
 
 task_list = label_dict.keys()
 
