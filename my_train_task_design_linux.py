@@ -131,11 +131,6 @@ def transform_predict(im, size):
     im = ten_crop(im, (448, 448))
     return (im)
 
-def progressbar(i, n, bar_len=40):
-    percents = math.ceil(100.0 * i / float(n))
-    filled_len = int(round(bar_len * i / float(n)))
-    prog_bar = '=' * filled_len + '-' * (bar_len - filled_len)
-    print('[%s] %s%s\r' % (prog_bar, percents, '%'))
 
 def accuracy(output, labels):
     return nd.mean(nd.argmax(output[0], axis=1) == labels[0][:,0]).asscalar()
@@ -339,8 +334,8 @@ def cal_mAP(file_name):
             count_time += 1
     AP = AP_sum / count_time
     output_file.writelines('the AP of ' + task + ' is: ' + str(AP) + '\n')  # 写入
-    print('the AP of ' + task + ' is: ' + str(AP))
-    os.system('rm ' + file_name)
+    logging.info('the AP of ' + task + ' is: ' + str(AP))
+    os.remove(file_name)
     return AP
 
 

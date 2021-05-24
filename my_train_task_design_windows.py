@@ -8,10 +8,10 @@ from mxnet import autograd as ag
 from mxnet.gluon import nn
 from mxnet.gluon.model_zoo import vision as models
 import random
-import cutomdataset
+import my_customdataset
 
 mAP_thresh_step = -0.0001
-mAP_output_dir = 'log/'
+mAP_output_dir = 'log' + os.path.sep
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Gluon for FashionAI Competition',
@@ -131,11 +131,6 @@ def transform_predict(im, size):
     im = ten_crop(im, (448, 448))
     return (im)
 
-def progressbar(i, n, bar_len=40):
-    percents = math.ceil(100.0 * i / float(n))
-    filled_len = int(round(bar_len * i / float(n)))
-    prog_bar = '=' * filled_len + '-' * (bar_len - filled_len)
-    print('[%s] %s%s\r' % (prog_bar, percents, '%'))
 
 def accuracy(output, labels):
     return nd.mean(nd.argmax(output[0], axis=1) == labels[0][:,0]).asscalar()
@@ -205,7 +200,7 @@ def train():
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
 
-    train_dataset =cutomdataset.custom_dataset2(root='./data2/crop_lapel2',filename=os.path.join('data2/', task+'_train.txt'))
+    train_dataset = my_customdataset.my_custom_dataset(imgroot=os.path.join(".",'train_valid_allset',task,'train'), labelmasterpath='label_master.csv')
     train_data = gluon.data.DataLoader(train_dataset.transform_first(train_transform),
         batch_size=batch_size, shuffle=True, num_workers=num_workers, last_batch='discard')
 
@@ -215,7 +210,7 @@ def train():
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
-    val_dataset = cutomdataset.custom_dataset2(root='./data2/crop_lapel2',filename=os.path.join('data2/', task+'_val.txt'))
+    val_dataset = my_customdataset.my_custom_dataset(imgroot=os.path.join(".",'train_valid_allset',task,'val'), labelmasterpath='label_master.csv')
     val_data = gluon.data.DataLoader(val_dataset.transform_first(val_transform),
         batch_size=batch_size, shuffle=False, num_workers = num_workers)
     
@@ -292,7 +287,7 @@ def train():
         if val_acc > best_acc:
             #best_AP = this_AP
             best_acc = val_acc
-            best_path = '/usr/data/fashionai/models/%s_%s_%s_%s.params' % (task, model_name, epoch, best_acc)
+            best_path = os.path.join('.','models','%s_%s_%s_%s_staging.params' % (task, model_name, epoch, best_acc))
             finetune_net.collect_params().save(best_path)
 
     logging.info('\n')
@@ -301,36 +296,6 @@ def train():
          (epoch, train_acc, train_loss, best_acc,  val_loss, time.time() - tic, trainer.learning_rate))
     return (finetune_net)
 
-#### Model test 
-def predict(task):
-    logging.info('Training Finished. Starting Prediction.\n')
-    f_out = open('submission/%s.csv'%(task), 'w')
-    with open('data2/week-rank/Tests/question.csv', 'r') as f_in:
-        lines = f_in.readlines()
-    tokens = [l.rstrip().split(',') for l in lines]
-    task_tokens = [t for t in tokens if t[1] == task]
-    n = len(task_tokens)
-    cnt = 0
-    for path, task, _ in task_tokens:
-        img_path = os.path.join('data2/week-rank', path)
-        with open(img_path, 'rb') as f:
-            img = image.imdecode(f.read())
-        out_all = np.zeros([task_list[task],])
-        ###### Test Time augmentation (muti-scale test) ######
-        for scale in input_scale:
-            data = transform_predict(img, scale)
-            with ag.predict_mode():
-                out = net(data.as_in_context(mx.gpu(0)))  # 随机crop十张图片,所以此处是10张图片的结果
-                out = nd.SoftmaxActivation(out).mean(axis=0)  # 取softmax,然后对十个结果取平均  
-                out_all += out.asnumpy()
-        out = out_all / len(input_scale)
-
-        pred_out = ';'.join(["%.8f"%(o) for o in out.tolist()])
-        line_out = ','.join([path, task, pred_out])
-        f_out.write(line_out + '\n')
-        cnt += 1
-        #progressbar(cnt, n)
-    f_out.close()
 
 ### Define mAP by ourselves according the competetion illustrate
 def cal_mAP(file_name):
@@ -369,8 +334,8 @@ def cal_mAP(file_name):
             count_time += 1
     AP = AP_sum / count_time
     output_file.writelines('the AP of ' + task + ' is: ' + str(AP) + '\n')  # 写入
-    print('the AP of ' + task + ' is: ' + str(AP))
-    os.system('rm ' + file_name)
+    logging.info('the AP of ' + task + ' is: ' + str(AP))
+    os.remove(file_name)
     return AP
 
 
@@ -409,12 +374,12 @@ batch_size = batch_size * max(num_gpus, 1)
 
 logging.basicConfig(handlers=[
                         logging.StreamHandler(),
-                        logging.FileHandler('training.log')
+                        logging.FileHandler(os.path.join(".", "log", 'training.log'))
                     ],
                     level=logging.INFO)
 
 ## log
-logpath_train=os.path.join('.\\log\\',task+'_'+model_name+'_'+str(batch_size)+'_'+str(epochs)+'_5.26')
+logpath_train=os.path.join('log',task+'_'+model_name+'_'+str(batch_size)+'_'+str(epochs))
 txtname='val.csv'
 if not os.path.exists(logpath_train):
     os.makedirs(logpath_train)
@@ -429,7 +394,11 @@ input_scale = [448,480,512]
 
 
 if __name__ == "__main__":
+    logging.info("%s, %s" % (task,model_name))
     net = train()
-    net.collect_params().save('models\\%s_%s_%s_%s_final.params' % (task, model_name, batch_size, epochs))
-    # predict(task)
+    if not os.path.exists("models"):
+        os.mkdir("models")
+    net.collect_params().save(os.path.join('.','models',('%s_%s_%s_%s_final.params' % (task, model_name, batch_size, epochs)))
+    f_val.close()
+    logging.info("end")
 
