@@ -287,7 +287,12 @@ def train():
         if val_acc > best_acc:
             #best_AP = this_AP
             best_acc = val_acc
-            best_path = os.path.join('.','models','%s_%s_%s_%s_staging.params' % (task, model_name, epoch, best_acc))
+            if not os.path.exists(os.path.join('.', 'models')):
+                os.makedirs(os.path.join('.', 'models'))
+            if not os.path.exists(os.path.join('.', 'models', '%s_%s_%s_%s_staging.params' % (task, model_name, epoch, best_acc))):
+                f = open(os.path.join('.', 'models', '%s_%s_%s_%s_staging.params' % (task, model_name, epoch, best_acc)), 'w')
+                f.close()
+            best_path = os.path.join('.', 'models', '%s_%s_%s_%s_staging.params' % (task, model_name, epoch, best_acc))
             finetune_net.collect_params().save(best_path)
 
     logging.info('\n')
@@ -378,27 +383,33 @@ logging.basicConfig(handlers=[
                     ],
                     level=logging.INFO)
 
-## log
-logpath_train=os.path.join('log',task+'_'+model_name+'_'+str(batch_size)+'_'+str(epochs))
-txtname='val.csv'
-if not os.path.exists(logpath_train):
-    os.makedirs(logpath_train)
-if os.path.exists(os.path.join(logpath_train,txtname)):
-    os.remove(os.path.join(logpath_train,txtname))
-global f_val
-f_val = open(os.path.join(logpath_train,txtname),'a+')
 
-#### Muti-scale train & test  scale parameter
-global random_scale 
-input_scale = [448,480,512]
 
 
 if __name__ == "__main__":
-    logging.info("%s, %s" % (task,model_name))
+    ## log
+    logpath_train = os.path.join('log', task + '_' + model_name + '_' + str(batch_size) + '_' + str(epochs))
+    txtname = 'val.csv'
+    if os.path.exists(os.path.join(logpath_train,txtname)):
+        os.remove(os.path.join(logpath_train,txtname))
+        import time
+        time.sleep(3)
+
+    if not os.path.exists(logpath_train):
+        os.makedirs(logpath_train)
+
+    global f_val
+    f_val = open(os.path.join(logpath_train, txtname), 'a+')
+
+    #### Muti-scale train & test  scale parameter
+    global random_scale
+    input_scale = [448, 480, 512]
+
+    logging.info("%s, %s" % (task, model_name))
     net = train()
     if not os.path.exists("models"):
         os.mkdir("models")
-    net.collect_params().save(os.path.join('.','models',('%s_%s_%s_%s_final.params' % (task, model_name, batch_size, epochs)))
+    net.collect_params().save(os.path.join('.','models',('%s_%s_%s_%s_final.params' % (task, model_name, batch_size, epochs))))
     f_val.close()
     logging.info("end")
 
