@@ -231,7 +231,7 @@ def predict(task):
 
 def cal_mAP(file_name):
     output_file = open(os.path.join(mAP_output_dir, model_name + '_' + task + '.txt'), 'a+')
-    origin_data = np.load(file_name, encoding='latin1')  # 必须使用此编码模式
+    origin_data = np.load(file_name, encoding='latin1', allow_pickle=True)  # 必须使用此编码模式
     # 读取最大的预测值，并用这个label和真实label对比，得到一个1X2的向量
     handle_data = np.array(
         [[origin_data[0][0].max(),
