@@ -14,7 +14,9 @@ set task_file_2=my_train_task_length_windows.py
 ::python3 %task_file_1% --task neck_design_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
 ::python3 %task_file_1% --task lapel_design_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
 
-python3 %task_file_2% --task skirt_length_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
+::python3 %task_file_2% --task skirt_length_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
+::python3 %task_file_2% --task coat_length_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
+python3 %task_file_2% --task pant_length_labels --model %model% --batch-size %batch_size% --num-gpus %num_gpus% -j %num_workers% --epochs %epoch% --lr-steps 7,12,15
 
 pause
 
