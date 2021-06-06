@@ -204,30 +204,6 @@ def train():
          (epoch, train_acc, train_loss, best_acc, best_AP, val_loss, time.time() - tic, trainer.learning_rate))
     return (finetune_net)
 
-def predict(task):
-    logging.info('Training Finished. Starting Prediction.\n')
-    f_out = open('submission/%s.csv'%(task), 'w')
-    with open('data2/week-rank/Tests/question.csv', 'r') as f_in:
-        lines = f_in.readlines()
-    tokens = [l.rstrip().split(',') for l in lines]
-    task_tokens = [t for t in tokens if t[1] == task]
-    n = len(task_tokens)
-    cnt = 0
-    for path, task, _ in task_tokens:
-        img_path = os.path.join('data2/week-rank', path)
-        with open(img_path, 'rb') as f:
-            img = image.imdecode(f.read())
-        data = transform_predict(img, input_scale)
-        with ag.predict_mode():
-            out = net(data.as_in_context(mx.gpu(0)))
-            out = nd.SoftmaxActivation(out).mean(axis=0)
-
-        pred_out = ';'.join(["%.8f"%(o) for o in out.asnumpy().tolist()])
-        line_out = ','.join([path, task, pred_out])
-        f_out.write(line_out + '\n')
-        cnt += 1
-        progressbar(cnt, n)
-    f_out.close()
 
 def cal_mAP(file_name):
     output_file = open(os.path.join(mAP_output_dir, model_name + '_' + task + '.txt'), 'a+')
@@ -266,7 +242,7 @@ def cal_mAP(file_name):
     AP = AP_sum / count_time
     output_file.writelines('the AP of ' + task + ' is: ' + str(AP) + '\n')  # 写入
     print('the AP of ' + task + ' is: ' + str(AP))
-    os.system('rm ' + file_name)
+    os.remove(file_name)
     return AP
 
 
