@@ -19,7 +19,7 @@
 + AttrValues :
   - Invisible
   - High Waist Length，高腰
-  - Regular Lengt，正常
+  - Regular Length，正常
   - Long Length，长款
   - Micro Length，加长款
   - Knee Length，及膝
