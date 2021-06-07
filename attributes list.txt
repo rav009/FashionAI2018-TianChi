@@ -1,6 +1,6 @@
 # skirt_length_labels
 
-+ AttrKey : skirt_length_labels，群长设计
++ AttrKey : skirt_length_labels，裙长
 + AttrValues :
   - Invisible
   - Short Length，短裙
@@ -15,7 +15,7 @@
 
 # coat_length_labels
 
-+ AttrKey : coat_length_labels，衣长设计
++ AttrKey : coat_length_labels，衣长
 + AttrValues :
   - Invisible
   - High Waist Length，高腰
@@ -89,7 +89,7 @@
 
 # pant_length_labels
 
-+ AttrKey : pant_length_labels，裤长设计
++ AttrKey : pant_length_labels，裤长
 + AttrValues :
   - Invisible
   - Short Pant，短裤
@@ -104,7 +104,7 @@
 
 # sleeve_length_labels
 
-+ AttrKey : sleeve_length_labels，袖长设计
++ AttrKey : sleeve_length_labels，袖长
 + AttrValues :
   - Invisible
   - Sleeveless，无袖
