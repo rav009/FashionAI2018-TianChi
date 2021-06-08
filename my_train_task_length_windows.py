@@ -280,6 +280,7 @@ ctx = [mx.gpu(i) for i in range(num_gpus)] if num_gpus > 0 else [mx.cpu()]
 batch_size = batch_size * max(num_gpus, 1)
 
 logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s %(levelname)s %(message)s',
                     handlers=[
                         logging.StreamHandler(),
                         logging.FileHandler(os.path.join(".", "log", 'training.log'))
