@@ -6,7 +6,7 @@
 1. 适配Windows 10下，python3.7 + mxnet1.7 + cuda10.2 的单GPU（NVidia GTX 1060 6G显存）学习环境。
 2. 重写了预处理的prepare_data.py文件，重写了加载数据和label的customdataset.py文件。重写后的文件前缀了"my_"。
 3. 新增一个my_predict.py文件，用于预测和导出模型。
-4. 其他一些我训练和预测过程中发现的小bug的修改。
+4. 其他一些我训练和预测过程中发现的小bug的修正。
 
 
 # The following passages are the orginal README. 以下是原作者的README。
